@@ -46,6 +46,7 @@ def render(profile: dict[str, object]) -> str:
     handle = str(profile["handle"])
     headline = str(profile["headline"])
     focus = list(profile["focus"])
+    interests = list(profile["interests"])
     languages = " · ".join(profile["languages"])
     technologies = " · ".join(profile["technologies"])
     currently = list(profile["currently"])
@@ -77,6 +78,8 @@ def render(profile: dict[str, object]) -> str:
     left, _ = section(58, 357, "focus", focus, 240)
     parts.append('<g class="line" style="animation-delay:.22s">' + "".join(left) + "</g>")
     right_y = 180
+    interest_lines, right_y = section(382, right_y, "interests", interests, 470)
+    parts.append('<g class="line" style="animation-delay:.28s">' + "".join(interest_lines) + "</g>")
     parts.append('<g class="line" style="animation-delay:.36s">')
     parts.append(text(382, right_y, "LANGUAGES", size=11, fill="#58a6ff", weight=700))
     parts.append(text(382, right_y + 23, languages, size=13, fill="#e6edf3"))
