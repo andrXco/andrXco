@@ -1,0 +1,33 @@
+name: Update profile artwork
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "data/profile.json"
+      - "scripts/**"
+      - ".github/workflows/update-profile.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate profile artwork
+        run: |
+          python scripts/render_profile_card.py
+          python scripts/fetch_contributions.py
+          python scripts/render_heatmap_svg.py
+      - name: Commit refreshed artwork
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: refresh profile artwork"
+          file_pattern: "assets/*.svg data/contributions.json"

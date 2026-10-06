@@ -1,0 +1,21 @@
+{
+  "name": "Andrés Cortés",
+  "handle": "andrXco",
+  "headline": "Systems Engineering student",
+  "location": "Colombia",
+  "focus": [
+    "Software architecture",
+    "Backend & distributed systems"
+  ],
+  "languages": [
+    "Java", "Python", "Kotlin", "C++", "JavaScript"
+  ],
+  "technologies": [
+    "Spring Boot", "Jetpack Compose", "Docker", "Linux", "Git", "REST APIs"
+  ],
+  "currently": [
+    "Building software with practical impact",
+    "Learning system design",
+    "Exploring workflow automation"
+  ]
+}
