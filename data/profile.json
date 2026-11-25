@@ -15,10 +15,11 @@
     "Startups"
   ],
   "languages": [
-    "Java", "Python", "Kotlin", "C++", "JavaScript"
+    "Java", "Python", "Kotlin", "C++", "JavaScript", "TypeScript"
   ],
   "technologies": [
-    "Spring Boot", "Jetpack Compose", "Docker", "Linux", "Git", "REST APIs"
+    "Spring Boot", "PostgreSQL", "Jetpack Compose", "Docker",
+    "Linux", "Git", "REST APIs"
   ],
   "currently": [
     "Building software with practical impact",

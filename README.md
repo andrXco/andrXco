@@ -9,7 +9,7 @@
 
 ### `andrXco@github ~ $ ./profile.sh`
 
-<img src="./assets/profile-card.svg?v=828d0bf" width="900" alt="Andrés Cortés — systems engineering profile" />
+<img src="./assets/profile-card.svg?v=22b45924f1" width="900" alt="Andrés Cortés — systems engineering profile" />
 
 <br />
 <br />
@@ -17,6 +17,7 @@
 ### `andrXco@github ~ $ ./connect.sh`
 
 [![GitHub](https://img.shields.io/badge/GitHub-andrXco-0d1117?style=for-the-badge&logo=github&logoColor=white)](https://github.com/andrXco)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Andr%C3%A9s%20Cort%C3%A9s-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andrescortes1/)
 
 </div>
 

@@ -48,7 +48,7 @@ def render(profile: dict[str, object]) -> str:
     focus = list(profile["focus"])
     interests = list(profile["interests"])
     languages = " · ".join(profile["languages"])
-    technologies = " · ".join(profile["technologies"])
+    technologies = list(profile["technologies"])
     currently = list(profile["currently"])
 
     parts = [
@@ -84,9 +84,21 @@ def render(profile: dict[str, object]) -> str:
     parts.append(text(382, right_y, "LANGUAGES", size=11, fill="#58a6ff", weight=700))
     parts.append(text(382, right_y + 23, languages, size=13, fill="#e6edf3"))
     parts.append(text(382, right_y + 58, "TECHNOLOGIES", size=11, fill="#58a6ff", weight=700))
-    parts.append(text(382, right_y + 81, technologies, size=13, fill="#e6edf3"))
+    technology_y = right_y + 81
+    max_row_chars = (WIDTH - PAD - 382) // 8
+    row = ""
+    for technology in technologies:
+        candidate = f"{row} · {technology}" if row else technology
+        if row and len(candidate) > max_row_chars:
+            parts.append(text(382, technology_y, row, size=13, fill="#e6edf3"))
+            technology_y += 21
+            row = technology
+        else:
+            row = candidate
+    if row:
+        parts.append(text(382, technology_y, row, size=13, fill="#e6edf3"))
     parts.append('</g>')
-    current_y = right_y + 121
+    current_y = technology_y + 40
     current_lines, _ = section(382, current_y, "currently", currently, 470)
     parts.append('<g class="line" style="animation-delay:.44s">' + "".join(current_lines) + "</g>")
     parts.append("</svg>")
