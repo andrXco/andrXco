@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="187" height="28" viewBox="0 0 187 28" role="img" aria-labelledby="title">
+  <title id="title">LinkedIn · Andrés Cortés</title>
+  <path fill="#0a66c2" d="M0 0h187v28H0z"/>
+  <path fill="#08549f" d="M0 0h87v28H0z"/>
+  <g fill="#fff" font-family="Verdana, sans-serif" font-weight="700">
+    <rect x="9" y="7" width="14" height="14" rx="2"/>
+    <text x="16" y="18" text-anchor="middle" font-size="10" fill="#08549f">in</text>
+    <text x="31" y="18" font-size="9" letter-spacing=".8">LINKEDIN</text>
+    <text x="137" y="18" text-anchor="middle" font-size="9" letter-spacing=".6">ANDRÉS CORTÉS</text>
+  </g>
+</svg>
