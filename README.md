@@ -9,16 +9,7 @@
 
 ### `andrXco@github ~ $ ./profile.sh`
 
-<table>
-  <tr>
-    <td width="190" align="center" valign="middle">
-      <img src="./assets/profile-logo.gif" width="180" alt="AndrXco pixel logo" />
-    </td>
-    <td valign="middle">
-      <img src="./assets/profile-card.svg?v=con-logo" width="700" alt="Andrés Cortés — systems engineering profile" />
-    </td>
-  </tr>
-</table>
+<img src="./assets/profile-card.svg?v=logo-green" width="900" alt="Andrés Cortés — systems engineering profile" />
 
 <br />
 <br />
