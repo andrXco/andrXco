@@ -11,11 +11,13 @@ import base64
 import json
 from pathlib import Path
 
+from render_heatmap_svg import PALETTE
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "data" / "profile.json"
-LOGO = ROOT / "assets" / "profile-logo-green.png"
-OUTPUT = ROOT / "assets" / "profile-card.svg"
+LOGO = ROOT / "assets" / "profile-logo-ac-ivory.png"
+OUTPUT = ROOT / "assets" / "profile-card-monogram.svg"
 
 WIDTH = 900
 HEIGHT = 590
@@ -63,13 +65,15 @@ def render(profile: dict[str, object]) -> str:
         '<line x1="0" y1="44" x2="900" y2="44" stroke="#30363d"/>',
         '<circle cx="34" cy="22" r="6" fill="#ff5f56"/><circle cx="54" cy="22" r="6" fill="#ffbd2e"/><circle cx="74" cy="22" r="6" fill="#27c93f"/>',
         f'<text x="450" y="27" text-anchor="middle" font-size="12" fill="#8b949e">{esc(handle)}@github: ~/profile</text>',
-        f'<image x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet"/>',
+        f'<image x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet" aria-label="A/C monogram"/>',
         '<g class="line" style="animation-delay:.14s">',
         f'<text x="382" y="109" font-size="26" font-weight="700" fill="#f0f6fc">{esc(name)}</text>',
         f'<text x="382" y="136" font-size="14" fill="#8b949e">{esc(headline)}</text>',
         '</g>',
         '<line x1="342" y1="76" x2="342" y2="552" stroke="#30363d"/>',
-        f'<text x="68" y="300" font-size="13" fill="#8b949e">{esc(profile["location"])}</text>',
+        f'<g transform="translate(56 307)" fill="none" stroke="{PALETTE[-1]}" stroke-width="1.3" stroke-linejoin="round">'
+        '<path d="M7 14s-5-4.2-5-8a5 5 0 0 1 10 0c0 3.8-5 8-5 8Z"/><circle cx="7" cy="6" r="1.6"/></g>',
+        text(78, 320, profile["location"], size=13, fill="#8b949e"),
     ]
 
     left, _ = section(58, 357, "focus", focus, 240)
