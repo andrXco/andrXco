@@ -59,13 +59,31 @@ def render(profile: dict[str, object]) -> str:
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-label="{esc(name)} profile" font-family="{MONO}">',
         "<style>@keyframes enter{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}.line{opacity:0;animation:enter .45s ease-out forwards}</style>",
+        '<style>'
+        '@keyframes logo-sweep{0%{transform:translateX(0)}85%,100%{transform:translateX(460px)}}'
+        '@media(prefers-reduced-motion:no-preference){.logo-reflection{animation:logo-sweep 10s linear .5s infinite}}'
+        '</style>',
+        '<defs>'
+        f'<image id="profile-logo" x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet"/>'
+        '<mask id="logo-silhouette" maskUnits="userSpaceOnUse" x="42" y="56" width="285" height="255" style="mask-type:alpha">'
+        '<use href="#profile-logo"/></mask>'
+        '<linearGradient id="logo-reflection-gradient">'
+        '<stop offset="0" stop-color="#fff" stop-opacity="0"/>'
+        '<stop offset=".36" stop-color="#fff" stop-opacity=".12"/>'
+        '<stop offset=".52" stop-color="#fff" stop-opacity=".55"/>'
+        '<stop offset=".68" stop-color="#fff" stop-opacity=".15"/>'
+        '<stop offset="1" stop-color="#fff" stop-opacity="0"/>'
+        '</linearGradient></defs>',
         "<defs><linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop stop-color=\"#0d1117\"/><stop offset=\"1\" stop-color=\"#070b10\"/></linearGradient><filter id=\"glow\"><feGaussianBlur stdDeviation=\"5\" result=\"b\"/><feMerge><feMergeNode in=\"b\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter></defs>",
         f'<rect width="{WIDTH}" height="{HEIGHT}" rx="14" fill="url(#bg)"/>',
         f'<rect x=".5" y=".5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="14" fill="none" stroke="#30363d"/>',
         '<line x1="0" y1="44" x2="900" y2="44" stroke="#30363d"/>',
         '<circle cx="34" cy="22" r="6" fill="#ff5f56"/><circle cx="54" cy="22" r="6" fill="#ffbd2e"/><circle cx="74" cy="22" r="6" fill="#27c93f"/>',
         f'<text x="450" y="27" text-anchor="middle" font-size="12" fill="#8b949e">{esc(handle)}@github: ~/profile</text>',
-        f'<image x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet" aria-label="A/C monogram"/>',
+        '<use href="#profile-logo" aria-label="A/C monogram"/>',
+        '<g mask="url(#logo-silhouette)" aria-hidden="true">'
+        '<g class="logo-reflection"><rect y="56" width="64" height="255" transform="skewX(-20)" fill="url(#logo-reflection-gradient)"/></g>'
+        '</g>',
         '<g class="line" style="animation-delay:.14s">',
         f'<text x="382" y="109" font-size="26" font-weight="700" fill="#f0f6fc">{esc(name)}</text>',
         f'<text x="382" y="136" font-size="14" fill="#8b949e">{esc(headline)}</text>',
