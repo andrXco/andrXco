@@ -7,22 +7,29 @@ commit the regenerated SVG.
 from __future__ import annotations
 
 import html
-import base64
 import json
 from pathlib import Path
 
-from render_heatmap_svg import PALETTE
+from render_heatmap_svg import CELL, PALETTE, STEP
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "data" / "profile.json"
-LOGO = ROOT / "assets" / "profile-logo-green.png"
 OUTPUT = ROOT / "assets" / "profile-card.svg"
 
 WIDTH = 900
 HEIGHT = 590
 PAD = 34
 MONO = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+MONOGRAM = (
+    "03430003443",
+    "42024042000",
+    "30003030000",
+    "34443030000",
+    "30003030000",
+    "30003042000",
+    "30003003443",
+)
 
 
 def esc(value: object) -> str:
@@ -45,6 +52,18 @@ def section(x: int, y: int, title: str, values: list[str], width: int) -> tuple[
     return lines, y + 8
 
 
+def render_monogram() -> str:
+    parts = ['<g transform="translate(103 133)" role="img" aria-label="A/C monogram">']
+    for row, levels in enumerate(MONOGRAM):
+        for column, level in enumerate(levels):
+            parts.append(
+                f'<rect x="{column * STEP}" y="{row * STEP}" width="{CELL}" height="{CELL}" '
+                f'rx="2" fill="{PALETTE[int(level)]}"/>'
+            )
+    parts.append("</g>")
+    return "".join(parts)
+
+
 def render(profile: dict[str, object]) -> str:
     name = str(profile["name"])
     handle = str(profile["handle"])
@@ -54,38 +73,25 @@ def render(profile: dict[str, object]) -> str:
     languages = " · ".join(profile["languages"])
     technologies = list(profile["technologies"])
     currently = list(profile["currently"])
-    logo_data = base64.b64encode(LOGO.read_bytes()).decode("ascii")
-    # Map the original green channel to the calendar palette while keeping the
-    # shading of each pixel and the transparency of the original image.
-    logo_colors = PALETTE[1:]
-    logo_channels = [
-        " ".join(f"{int(color[offset:offset + 2], 16) / 255:.6f}" for color in logo_colors)
-        for offset in (1, 3, 5)
-    ]
 
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-label="{esc(name)} profile" font-family="{MONO}">',
         "<style>@keyframes enter{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}.line{opacity:0;animation:enter .45s ease-out forwards}</style>",
-        '<defs><filter id="logo-palette" color-interpolation-filters="sRGB">'
-        '<feColorMatrix type="matrix" values="0 1 0 0 0  0 1 0 0 0  0 1 0 0 0  0 0 0 1 0"/>'
-        '<feComponentTransfer>'
-        + "".join(f'<feFunc{channel} type="table" tableValues="{values}"/>' for channel, values in zip("RGB", logo_channels))
-        + '</feComponentTransfer></filter></defs>',
         "<defs><linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop stop-color=\"#0d1117\"/><stop offset=\"1\" stop-color=\"#070b10\"/></linearGradient><filter id=\"glow\"><feGaussianBlur stdDeviation=\"5\" result=\"b\"/><feMerge><feMergeNode in=\"b\"/><feMergeNode in=\"SourceGraphic\"/></feMerge></filter></defs>",
         f'<rect width="{WIDTH}" height="{HEIGHT}" rx="14" fill="url(#bg)"/>',
         f'<rect x=".5" y=".5" width="{WIDTH - 1}" height="{HEIGHT - 1}" rx="14" fill="none" stroke="#30363d"/>',
         '<line x1="0" y1="44" x2="900" y2="44" stroke="#30363d"/>',
         '<circle cx="34" cy="22" r="6" fill="#ff5f56"/><circle cx="54" cy="22" r="6" fill="#ffbd2e"/><circle cx="74" cy="22" r="6" fill="#27c93f"/>',
         f'<text x="450" y="27" text-anchor="middle" font-size="12" fill="#8b949e">{esc(handle)}@github: ~/profile</text>',
-        f'<image x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet" filter="url(#logo-palette)"/>',
+        render_monogram(),
         '<g class="line" style="animation-delay:.14s">',
         f'<text x="382" y="109" font-size="26" font-weight="700" fill="#f0f6fc">{esc(name)}</text>',
         f'<text x="382" y="136" font-size="14" fill="#8b949e">{esc(headline)}</text>',
         '</g>',
         '<line x1="342" y1="76" x2="342" y2="552" stroke="#30363d"/>',
-        f'<g transform="translate(68 287)" fill="none" stroke="{PALETTE[-1]}" stroke-width="1.3" stroke-linejoin="round">'
+        f'<g transform="translate(56 307)" fill="none" stroke="{PALETTE[-1]}" stroke-width="1.3" stroke-linejoin="round">'
         '<path d="M7 14s-5-4.2-5-8a5 5 0 0 1 10 0c0 3.8-5 8-5 8Z"/><circle cx="7" cy="6" r="1.6"/></g>',
-        text(90, 300, profile["location"], size=13, fill="#8b949e"),
+        text(78, 320, profile["location"], size=13, fill="#8b949e"),
     ]
 
     left, _ = section(58, 357, "focus", focus, 240)
