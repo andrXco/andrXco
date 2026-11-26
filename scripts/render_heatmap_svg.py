@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a clean, animated contribution calendar SVG (without statistics)."""
+"""Render a clean, animated contribution calendar SVG with an annual total."""
 from __future__ import annotations
 
 import datetime as dt
@@ -45,7 +45,7 @@ def render(data: dict[str, object]) -> str:
     columns = grid(days)
     art_width = len(columns) * STEP
     width = PAD * 2 + LABEL_W + art_width
-    height = 194
+    height = 202
     top, left = 60, PAD + LABEL_W
     labels: list[tuple[int, str]] = []
     seen: set[tuple[int, int]] = set()
@@ -62,7 +62,7 @@ def render(data: dict[str, object]) -> str:
     user = html.escape(str(data.get("username", "andrXco")))
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="GitHub contribution calendar" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">',
-        "<style>@keyframes reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}.cell{opacity:0;animation:reveal .35s ease-out forwards}</style>",
+        "<style>@keyframes reveal{0%{opacity:0;transform:translateY(-3px) scaleX(.15);filter:brightness(1)}55%{opacity:1;filter:brightness(1.65)}100%{opacity:1;transform:none;filter:brightness(1)}}.cell{transform-box:fill-box;transform-origin:left center;animation:reveal .8s cubic-bezier(.22,1,.36,1) backwards}@media(prefers-reduced-motion:reduce){.cell{animation:none}}</style>",
         f'<rect width="{width}" height="{height}" rx="14" fill="#0d1117"/><rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="14" fill="none" stroke="#30363d"/>',
         f'<text x="{PAD}" y="27" fill="#8b949e" font-size="12">{user}@github: ~/contributions</text>',
         f'<text x="{width - PAD}" y="27" text-anchor="end" fill="#39d353" font-size="12">last year</text>',
@@ -79,9 +79,12 @@ def render(data: dict[str, object]) -> str:
             level = max(0, min(4, int(day.get("level", 0))))
             date = html.escape(str(day["date"]))
             x, y = left + col_idx * STEP, top + row * STEP
-            delay = 0.05 + (col_idx * 0.014) + (row * 0.022)
+            delay = 0.05 + (col_idx * 0.045) + (row * 0.045)
             parts.append(f'<rect class="cell" x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2" fill="{PALETTE[level]}" style="animation-delay:{delay:.3f}s"><title>{date}</title></rect>')
-    legend_y = 170
+    year = dt.datetime.now(dt.timezone(dt.timedelta(hours=-5))).year
+    annual_total = sum(int(day["count"]) for day in days if dt.date.fromisoformat(str(day["date"])).year == year)
+    parts.append(f'<text x="{PAD}" y="184" fill="#c9d1d9" font-size="12">{annual_total:,} contributions in {year}</text>')
+    legend_y = 175
     legend_x = width - PAD - 128
     parts.append(f'<text x="{legend_x}" y="{legend_y + 9}" text-anchor="end" fill="#8b949e" font-size="10">Less</text>')
     for index, color in enumerate(PALETTE):

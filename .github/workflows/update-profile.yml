@@ -30,4 +30,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: refresh profile artwork"
-          file_pattern: "assets/*.svg data/contributions.json"
+          file_pattern: "assets/* data/contributions.json"

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch the public contribution calendar for the configured GitHub profile.
-
-The GitHub endpoint is public and needs no token.  We retain only date and
-intensity—the README deliberately does not show contribution statistics.
-"""
+"""Fetch the public contribution calendar for the configured GitHub profile."""
 from __future__ import annotations
 
 import datetime as dt
@@ -31,13 +27,30 @@ def fetch_days() -> list[dict[str, object]]:
     with urllib.request.urlopen(request, timeout=30) as response:
         page = response.read().decode("utf-8")
 
+    tooltips: dict[str, str] = {}
+    for attrs, body in re.findall(r"<tool-tip\b([^>]*)>(.*?)</tool-tip>", page, re.DOTALL | re.IGNORECASE):
+        tooltip_id = attr(f"<{attrs}>", "for")
+        if tooltip_id:
+            tooltips[tooltip_id] = html.unescape(re.sub(r"<[^>]+>", " ", body))
+
     days: list[dict[str, object]] = []
-    for tag in re.findall(r"<(?:td|rect)\b[^>]*\bdata-date=\"[^\"]+\"[^>]*>", page):
+    for tag in re.findall(r"<(?:td|rect)\b[^>]*\bdata-date=\"[^\"]+\"[^>]*>", page, re.IGNORECASE):
         date = attr(tag, "data-date")
         if not date:
             continue
         level = attr(tag, "data-level")
-        days.append({"date": date, "level": int(level) if level and level.isdigit() else 0})
+        count_text = attr(tag, "aria-label") or attr(tag, "data-count") or ""
+        cell_id = attr(tag, "id")
+        if not count_text and cell_id:
+            count_text = tooltips.get(cell_id, "")
+        if re.search(r"\bno contributions\b", count_text, re.IGNORECASE):
+            count = 0
+        else:
+            match = re.search(r"([\d,]+)\s+contribution(?:s)?\b", count_text, re.IGNORECASE)
+            if not match:
+                raise RuntimeError(f"Could not read the exact contribution count for {date}")
+            count = int(match.group(1).replace(",", ""))
+        days.append({"date": date, "level": int(level) if level and level.isdigit() else 0, "count": count})
     unique = {str(day["date"]): day for day in days}
     result = [unique[key] for key in sorted(unique)]
     if not result:
