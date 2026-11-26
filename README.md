@@ -2,7 +2,7 @@
 
 ### `andrXco@github ~ $ ./contributions.sh`
 
-<img src="./assets/contrib-heatmap.svg" width="900" alt="GitHub contribution calendar for andrXco" />
+<img src="./assets/contrib-heatmap.gif" width="900" alt="Animated GitHub contribution calendar for andrXco, with this year's total" />
 
 <br />
 <br />

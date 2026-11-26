@@ -25,9 +25,10 @@ jobs:
         run: |
           python scripts/render_profile_card.py
           python scripts/fetch_contributions.py
-          python scripts/render_heatmap_svg.py
+          python -m pip install Pillow
+          python scripts/render_heatmap_gif.py
       - name: Commit refreshed artwork
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: refresh profile artwork"
-          file_pattern: "assets/*.svg data/contributions.json"
+          file_pattern: "assets/* data/contributions.json"
