@@ -9,7 +9,7 @@
 
 ### `andrXco@github ~ $ ./profile.sh`
 
-<img src="./assets/profile-card-monogram.svg" width="900" alt="Andrés Cortés — systems engineering profile" />
+<img src="./assets/profile-card-monogram.svg?v=relief-ac" width="900" alt="Andrés Cortés — systems engineering profile" />
 
 <br />
 <br />
