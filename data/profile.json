@@ -4,15 +4,13 @@
   "headline": "Systems Engineering student",
   "location": "Colombia",
   "focus": [
-    "Software architecture",
-    "Backend & distributed systems"
+    "Distributed Systems",
+    "Startups"
   ],
   "interests": [
     "Project management",
     "Software architecture",
-    "Distributed systems",
-    "Workflow automation",
-    "Startups"
+    "Workflow automation"
   ],
   "languages": [
     "Java", "Python", "Kotlin", "C++", "JavaScript", "TypeScript"
