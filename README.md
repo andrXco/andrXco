@@ -17,7 +17,6 @@
 ### `andrXco@github ~ $ ./connect.sh`
 
 [![GitHub](https://img.shields.io/badge/GitHub-andrXco-0d1117?style=for-the-badge&logo=github&logoColor=white)](https://github.com/andrXco)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Andr%C3%A9s%20Cort%C3%A9s-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andrescortes1/)
 
 </div>
 
