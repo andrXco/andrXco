@@ -2,14 +2,14 @@
 
 ### `andrXco@github ~ $ ./contributions.sh`
 
-<img src="./assets/contrib-heatmap.svg" width="900" alt="Animated GitHub contribution calendar for andrXco, with this year's total" />
+<img src="./assets/contrib-heatmap.svg?v=slow-sweep" width="900" alt="Animated GitHub contribution calendar for andrXco, with this year's total" />
 
 <br />
 <br />
 
 ### `andrXco@github ~ $ ./profile.sh`
 
-<img src="./assets/profile-card-monogram.svg?v=ac-reflection" width="900" alt="Andrés Cortés — systems engineering profile" />
+<img src="./assets/profile-card-monogram.svg?v=slow-sweep" width="900" alt="Andrés Cortés — systems engineering profile" />
 
 <br />
 <br />

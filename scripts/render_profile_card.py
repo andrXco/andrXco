@@ -60,8 +60,8 @@ def render(profile: dict[str, object]) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{WIDTH}" height="{HEIGHT}" viewBox="0 0 {WIDTH} {HEIGHT}" role="img" aria-label="{esc(name)} profile" font-family="{MONO}">',
         "<style>@keyframes enter{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}.line{opacity:0;animation:enter .45s ease-out forwards}</style>",
         '<style>'
-        '@keyframes logo-sweep{0%,12%{transform:translateX(0)}36%,100%{transform:translateX(460px)}}'
-        '@media(prefers-reduced-motion:no-preference){.logo-reflection{animation:logo-sweep 6s ease-in-out infinite}}'
+        '@keyframes logo-sweep{0%{transform:translateX(0)}44%,100%{transform:translateX(460px)}}'
+        '@media(prefers-reduced-motion:no-preference){.logo-reflection{animation:logo-sweep 7.5s linear .5s infinite}}'
         '</style>',
         '<defs>'
         f'<image id="profile-logo" x="42" y="56" width="285" height="255" href="data:image/png;base64,{logo_data}" preserveAspectRatio="xMidYMid meet"/>'
