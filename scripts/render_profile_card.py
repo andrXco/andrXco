@@ -15,7 +15,7 @@ from render_heatmap_svg import CELL, PALETTE, STEP
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "data" / "profile.json"
-OUTPUT = ROOT / "assets" / "profile-card.svg"
+OUTPUT = ROOT / "assets" / "profile-card-monogram.svg"
 
 WIDTH = 900
 HEIGHT = 590
