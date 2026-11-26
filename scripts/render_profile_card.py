@@ -60,22 +60,14 @@ def render(profile: dict[str, object]) -> str:
         '<line x1="0" y1="44" x2="900" y2="44" stroke="#30363d"/>',
         '<circle cx="34" cy="22" r="6" fill="#ff5f56"/><circle cx="54" cy="22" r="6" fill="#ffbd2e"/><circle cx="74" cy="22" r="6" fill="#27c93f"/>',
         f'<text x="450" y="27" text-anchor="middle" font-size="12" fill="#8b949e">{esc(handle)}@github: ~/profile</text>',
-        '<g class="line" style="animation-delay:.05s">',
-        '<text x="58" y="123" font-size="28" font-weight="700" fill="#39d353" filter="url(#glow)">      _    ____</text>',
-        '<text x="58" y="157" font-size="28" font-weight="700" fill="#39d353">     / \\  / ___|</text>',
-        '<text x="58" y="191" font-size="28" font-weight="700" fill="#39d353">    / _ \\| |</text>',
-        '<text x="58" y="225" font-size="28" font-weight="700" fill="#39d353">   / ___ \\ |___</text>',
-        '<text x="58" y="259" font-size="28" font-weight="700" fill="#39d353">  /_/   \\_\\____|</text>',
-        f'<text x="68" y="300" font-size="13" fill="#8b949e">{esc(profile["location"])}</text>',
-        '</g>',
-        '<line x1="342" y1="76" x2="342" y2="552" stroke="#30363d"/>',
         '<g class="line" style="animation-delay:.14s">',
-        f'<text x="382" y="109" font-size="26" font-weight="700" fill="#f0f6fc">{esc(name)}</text>',
-        f'<text x="382" y="136" font-size="14" fill="#8b949e">{esc(headline)}</text>',
+        f'<text x="58" y="109" font-size="26" font-weight="700" fill="#f0f6fc">{esc(name)}</text>',
+        f'<text x="58" y="136" font-size="14" fill="#8b949e">{esc(headline)}</text>',
+        f'<text x="58" y="160" font-size="13" fill="#8b949e">{esc(profile["location"])}</text>',
         '</g>',
     ]
 
-    left, _ = section(58, 357, "focus", focus, 240)
+    left, _ = section(58, 210, "focus", focus, 240)
     parts.append('<g class="line" style="animation-delay:.22s">' + "".join(left) + "</g>")
     right_y = 180
     interest_lines, right_y = section(382, right_y, "interests", interests, 470)
