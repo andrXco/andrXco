@@ -64,15 +64,15 @@ def render(data: dict[str, object]) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="GitHub contribution calendar" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">',
         '<style>'
         '@keyframes reveal{0%{opacity:0;transform:translateY(-3px) scaleX(.15);filter:brightness(1)}55%{opacity:1;filter:brightness(1.65)}100%{opacity:1;transform:none;filter:brightness(1)}}'
-        f'@keyframes grid-sweep{{0%{{transform:translateX(0)}}56%,100%{{transform:translateX({width + 180}px)}}}}'
+        f'@keyframes grid-sweep{{from{{transform:translateX(0)}}to{{transform:translateX({width + 150}px)}}}}'
         '@media(prefers-reduced-motion:no-preference){'
         '.cell{transform-box:fill-box;transform-origin:left center;animation:reveal 1s cubic-bezier(.22,1,.36,1) backwards}'
-        '.grid-reflection{animation:grid-sweep 8s linear 4.5s infinite}}'
+        '.grid-reflection{animation:grid-sweep 5.5s linear 4.5s infinite}}'
         '</style>',
-        '<defs><mask id="grid-silhouette" style="mask-type:alpha"><use href="#calendar-cells"/></mask>'
+        '<defs>'
         '<linearGradient id="grid-reflection-gradient">'
         '<stop offset="0" stop-color="#e6edf3" stop-opacity="0"/>'
-        '<stop offset=".52" stop-color="#e6edf3" stop-opacity=".24"/>'
+        '<stop offset=".52" stop-color="#e6edf3" stop-opacity=".36"/>'
         '<stop offset="1" stop-color="#e6edf3" stop-opacity="0"/>'
         '</linearGradient></defs>',
         f'<rect width="{width}" height="{height}" rx="14" fill="#0d1117"/><rect x=".5" y=".5" width="{width - 1}" height="{height - 1}" rx="14" fill="none" stroke="#30363d"/>',
@@ -84,6 +84,7 @@ def render(data: dict[str, object]) -> str:
         parts.append(f'<text x="{left + col_idx * STEP}" y="55" fill="#8b949e" font-size="10">{month}</text>')
     for row, label in ((1, "Mon"), (3, "Wed"), (5, "Fri")):
         parts.append(f'<text x="{PAD}" y="{top + row * STEP + 9}" fill="#8b949e" font-size="9">{label}</text>')
+    cell_shapes = []
     parts.append('<g id="calendar-cells">')
     for col_idx, column in enumerate(columns):
         for row, day in enumerate(column):
@@ -93,9 +94,13 @@ def render(data: dict[str, object]) -> str:
             date = html.escape(str(day["date"]))
             x, y = left + col_idx * STEP, top + row * STEP
             delay = 0.05 + (col_idx * 0.055) + (row * 0.055)
-            parts.append(f'<rect class="cell" x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2" fill="{PALETTE[level]}" style="animation-delay:{delay:.3f}s"><title>{date}</title></rect>')
+            shape = f'x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2"'
+            cell_shapes.append(f'<rect {shape}/>')
+            parts.append(f'<rect class="cell" {shape} fill="{PALETTE[level]}" style="animation-delay:{delay:.3f}s"><title>{date}</title></rect>')
+    parts.append('</g><defs><clipPath id="grid-silhouette" clipPathUnits="userSpaceOnUse">')
+    parts.extend(cell_shapes)
     parts.append(
-        '</g><g mask="url(#grid-silhouette)" aria-hidden="true" pointer-events="none">'
+        '</clipPath></defs><g clip-path="url(#grid-silhouette)" aria-hidden="true" pointer-events="none">'
         '<g class="grid-reflection"><rect x="-125" y="50" width="125" height="120" '
         'transform="skewX(-20)" fill="url(#grid-reflection-gradient)"/></g></g>'
     )
